@@ -1,19 +1,16 @@
 # pyrefly: ignore [missing-import]
 from fastapi import FastAPI
 from api.routes import router
+from utils.logger import setup_logging
+
+
+setup_logging()
+
 
 app = FastAPI(
-    title="Cloud Support",
-    version="1.0.0"
+    title="CloudDash Customer Support API",
+    version="1.0.0",
+    description="Multi-agent AI support system for CloudDash SaaS platform.",
 )
 
 app.include_router(router)
-
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the Cloud Support API"}
-
-@app.get("/api/v1/health")
-def health_check():
-    return {"status": "healthy"}
-
