@@ -1,0 +1,18 @@
+{
+  "id": "KB-BIL-001",
+  "title": "Invoice Issues and Double Charges",
+  "category": "billing",
+  "tags": [
+    "billing",
+    "invoice",
+    "double-charge",
+    "dispute",
+    "charge"
+  ],
+  "content": "If you notice a double charge or duplicate invoice on your statement, do not panic. This usually occurs if a subscription change was made mid-cycle or if multiple billing profiles were created. Step 1: Locate your invoice number and customer ID. Step 2: Review the billing statement to confirm if it is a pre-authorization hold (which drops off in 3-5 business days) or an actual double charge. Step 3: If you have been charged twice for the same billing period, please contact billing support. We will audit the ledger, reverse the duplicate transaction immediately, and apply a credit to your account if requested. The refund typically reflects in 5-10 business days. For enterprise customers, invoices can also be consolidated across multiple sub-accounts. If you require billing split by department, cost center, or team, contact our billing operations. We can set up automated invoice splitting so that each department receives its own invoice or a single invoice is formatted with detailed breakdown by tags.",
+  "last_updated": "2026-05-18",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

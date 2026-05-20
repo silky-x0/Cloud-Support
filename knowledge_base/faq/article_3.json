@@ -1,0 +1,18 @@
+{
+  "id": "KB-FAQ-003",
+  "title": "Alerting Quotas and Limits",
+  "category": "faq",
+  "tags": [
+    "alerts",
+    "limits",
+    "quotas",
+    "throttling"
+  ],
+  "content": "To maintain system stability, CloudDash enforces alerting quotas. Developer accounts are limited to 5 active alert rules and 100 notifications per month. Pro accounts can configure up to 100 active alert rules and receive up to 10,000 notifications per month. Enterprise accounts have custom alerting quotas with no hard limits. If an account exceeds its notification limit, subsequent alerts will be throttled, and a warning email will be sent to the administrator. Alerts can be routed via email, Slack, PagerDuty, or custom webhooks. We measure quotas on a rolling 30-day basis, and you can monitor your current notification consumption directly from the Account Settings usage dashboard.",
+  "last_updated": "2026-03-15",
+  "applies_to": [
+    "Developer",
+    "Pro",
+    "Enterprise"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "KB-API-004",
+  "title": "Webhooks Payload Spec and Verification",
+  "category": "api_docs",
+  "tags": [
+    "api",
+    "webhooks",
+    "payload",
+    "security",
+    "signatures"
+  ],
+  "content": "CloudDash can send HTTP POST webhook payloads to your endpoints when alerts trigger. The payload is a JSON object containing alert metadata (id, rule_name, status, severity, value, timestamp). To verify that webhook payloads originated from CloudDash and were not tampered with, check the 'X-CloudDash-Signature' header. We compute an HMAC hex digest using SHA-256 with your webhook secret as the key and the raw request body as the message. Verify this signature in your backend handler before acting on the webhook payload. Redundant retries will be performed automatically if your endpoint returns a non-200 response status.",
+  "last_updated": "2026-04-25",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 import logging
 import os
+# pyrefly: ignore [missing-import]
 from openai import AsyncOpenAI
 
 from models.conversation import ConversationState
@@ -17,7 +18,9 @@ def get_openai_client() -> AsyncOpenAI:
     """Shared singleton so every agent reuses the same HTTP connection pool."""
     global _openai_client
     if _openai_client is None:
-        _openai_client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        api_key = settings.OPEN_ROUTER_KEY or settings.OPENAI_API_KEY or "mock-key"
+        base_url = "https://openrouter.ai/api/v1" if settings.OPEN_ROUTER_KEY else None
+        _openai_client = AsyncOpenAI(api_key=api_key, base_url=base_url)
     return _openai_client
 
 

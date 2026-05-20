@@ -1,0 +1,17 @@
+{
+  "id": "KB-API-002",
+  "title": "Querying Metrics via the API",
+  "category": "api_docs",
+  "tags": [
+    "api",
+    "metrics",
+    "query",
+    "endpoint"
+  ],
+  "content": "To retrieve metric data programmatically, use the GET /api/v1/metrics endpoint. Required query parameters: 'metric' (name of the metric, e.g. system.cpu.idle), 'from' (unix timestamp), and 'to' (unix timestamp). Optional parameters: 'tags' (comma-separated key:value pairs for filtering, e.g. env:production,region:us-east-1) and 'aggr' (aggregation method, e.g. avg, sum, min, max). The endpoint returns a JSON payload containing an array of timestamps and data points. Rate limits for metric queries are 60 requests per minute for Pro and 600 for Enterprise. High resolution metric querying allows retrieving 1-second interval granularity data.",
+  "last_updated": "2026-04-05",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

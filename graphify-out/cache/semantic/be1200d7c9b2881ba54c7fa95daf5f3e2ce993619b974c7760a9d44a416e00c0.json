@@ -1,0 +1,1 @@
+{"nodes": [{"id": "gemini_graphify_guidelines", "label": "Graphify Usage Rules", "file_type": "rationale", "source_file": "GEMINI.md", "rationale": "Use graphify query for focused context to save tokens and improve relevance over raw grep/source browsing."}], "edges": [], "hyperedges": []}

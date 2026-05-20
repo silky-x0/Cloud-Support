@@ -1,0 +1,18 @@
+{
+  "id": "KB-007",
+  "title": "AWS Integration Troubleshooting and Alerts Not Firing",
+  "category": "troubleshooting",
+  "tags": [
+    "aws",
+    "integration",
+    "credentials",
+    "alerts",
+    "role-arn"
+  ],
+  "content": "If your CloudDash alerts stopped firing after updating your AWS integration credentials or updating your AWS environment, follow these steps. Step 1: Verify the AWS IAM Role ARN in CloudDash settings matches the updated role in your AWS console. Step 2: Ensure the IAM role has the 'SecurityAudit' and 'CloudWatchReadOnlyAccess' policies attached. Step 3: Check the CloudDash integration dashboard for permission errors. Step 4: If credentials or external ID were regenerated, update them in CloudDash \u2192 Integrations \u2192 AWS \u2192 Edit. Step 5: Test the connection by clicking 'Test AWS Connection'. Alerts should resume firing within 5 minutes of saving valid credentials. Please make sure to double check that your AWS IAM trust policy allows the CloudDash AWS account ID to assume the role. If you are using a cross-account role with an external ID, ensure that the external ID configured in your AWS IAM console matches the one generated and displayed in the CloudDash AWS settings exactly. Mismatched external IDs will prevent authentication and cause metric collection to fail completely.",
+  "last_updated": "2026-05-19",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

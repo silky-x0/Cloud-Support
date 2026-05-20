@@ -1,0 +1,19 @@
+{
+  "id": "KB-TR-004",
+  "title": "Fixing Slow or Empty Metrics Dashboards",
+  "category": "troubleshooting",
+  "tags": [
+    "dashboards",
+    "slow",
+    "empty",
+    "metrics",
+    "cache"
+  ],
+  "content": "If your dashboards are empty or loading slowly: Step 1: Ensure the time range selector is set correctly (e.g., Last 1 Hour). Step 2: Check if the selected tags and filters match active hosts. Step 3: Clear browser cache or try an incognito window to bypass local storage issues. Step 4: Verify that metrics are being received by checking the 'Data Ingestion Rate' on the settings page. Slow queries can occur if you are aggregating across millions of high-cardinality tags. Try grouping by broader tags (e.g., environment rather than container ID). If you continue to see performance degradation, try using pre-aggregated metrics dashboards.",
+  "last_updated": "2026-04-18",
+  "applies_to": [
+    "Developer",
+    "Pro",
+    "Enterprise"
+  ]
+}

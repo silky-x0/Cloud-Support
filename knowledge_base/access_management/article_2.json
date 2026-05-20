@@ -1,0 +1,18 @@
+{
+  "id": "KB-ACC-002",
+  "title": "Role-Based Access Control (RBAC) Details",
+  "category": "access_management",
+  "tags": [
+    "rbac",
+    "roles",
+    "permissions",
+    "admin",
+    "editor"
+  ],
+  "content": "CloudDash supports three built-in roles: Admin, Editor, and Viewer. 1. Viewer: Read-only access. Can view dashboards, metrics, and active alerts, but cannot edit them or access billing. 2. Editor: Viewer permissions plus ability to create/edit/delete dashboards, alert rules, and integrations. Cannot modify billing or manage users. 3. Admin: Full administrative privileges, including managing billing, user invites, API keys, and platform SSO configuration. Enterprise plans support custom role definitions with granular resource-level policies (e.g. read access limited to specific tagging scopes or environment namespaces). Users can be assigned multiple roles, and role changes are audited in our platform log streams.",
+  "last_updated": "2026-04-12",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

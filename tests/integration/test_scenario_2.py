@@ -1,0 +1,91 @@
+"""
+Integration test — Scenario 2: Cross-agent handover (Technical → Billing).
+
+Flow: Triage → technical (SSO), then handover_required=True → billing (upgrade)
+LLM and retriever are mocked. Validates HandoverManager writes audit log.
+"""
+import json
+# pyrefly: ignore [missing-import]
+import os
+# pyrefly: ignore [missing-import]
+import pytest
+from unittest.mock import AsyncMock, MagicMock, patch
+# pyrefly: ignore [missing-import]
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
+
+_TRIAGE_RESPONSE = json.dumps({
+    "intent": "technical_issue",
+    "routing_decision": "technical",
+    "entities": {"plan_change": "pro_to_enterprise"},
+    "urgency": "medium",
+})
+
+# Technical agent asks for handover to billing after handling SSO
+_TECHNICAL_RESPONSE = "I've addressed your SSO issue. Transferring you to billing for the Enterprise upgrade."
+
+_BILLING_RESPONSE = "I can see you'd like to upgrade from Pro to Enterprise. Here are the details..."
+
+
+def test_scenario2_cross_agent_handover():
+    resp = client.post("/api/v1/conversations", json={"customer_id": "cust-s2"})
+    assert resp.status_code == 200
+    conv_id = resp.json()["conversation_id"]
+
+    mock_citation = MagicMock()
+    mock_citation.kb_id = "KB-012"
+    mock_citation.title = "SSO SAML Configuration"
+    mock_citation.snippet = "Configure SSO via Settings → Auth → SAML..."
+    mock_citation.score = 0.88
+    mock_citation.model_dump = lambda: {
+        "kb_id": "KB-012", "title": "SSO SAML Configuration",
+        "snippet": "Configure SSO via Settings → Auth → SAML...", "score": 0.88
+    }
+
+    # Technical agent response that triggers handover
+    tech_agent_response = MagicMock()
+    tech_agent_response.agent = "technical"
+    tech_agent_response.content = _TECHNICAL_RESPONSE
+    tech_agent_response.citations = [mock_citation]
+    tech_agent_response.handover_required = True
+    tech_agent_response.handover_target = "billing"
+    tech_agent_response.escalate = False
+    tech_agent_response.routing_decision = None
+
+    billing_agent_response = MagicMock()
+    billing_agent_response.agent = "billing"
+    billing_agent_response.content = _BILLING_RESPONSE
+    billing_agent_response.citations = []
+    billing_agent_response.handover_required = False
+    billing_agent_response.escalate = False
+    billing_agent_response.routing_decision = None
+
+    with (
+        patch("agents.triage_agent.TriageAgent._call_llm",
+              new=AsyncMock(return_value=_TRIAGE_RESPONSE)),
+        patch("agents.technical_agent.TechnicalAgent.handle",
+              new=AsyncMock(return_value=tech_agent_response)),
+        patch("agents.billing_agent.BillingAgent.handle",
+              new=AsyncMock(return_value=billing_agent_response)),
+    ):
+        resp = client.post(
+            f"/api/v1/conversations/{conv_id}/messages",
+            json={"content": "I want to upgrade from Pro to Enterprise, but first check my SSO issue."}
+        )
+
+    assert resp.status_code == 200
+    data = resp.json()
+    # Final response comes from billing agent after handover
+    assert data["agent"] == "billing"
+    assert "upgrade" in data["content"].lower() or "enterprise" in data["content"].lower()
+
+    # Verify handover audit log was written
+    assert os.path.exists("handover/audit.jsonl"), "Handover audit log should exist"
+    with open("handover/audit.jsonl") as f:
+        lines = [l for l in f.readlines() if l.strip()]
+    assert len(lines) >= 1
+    last_entry = json.loads(lines[-1])
+    assert last_entry["source_agent"] == "technical"
+    assert last_entry["target_agent"] == "billing"

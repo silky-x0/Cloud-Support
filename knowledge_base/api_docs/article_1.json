@@ -1,0 +1,19 @@
+{
+  "id": "KB-API-001",
+  "title": "API Authentication and Token Usage",
+  "category": "api_docs",
+  "tags": [
+    "api",
+    "auth",
+    "token",
+    "headers",
+    "security"
+  ],
+  "content": "All requests to the CloudDash REST API must be authenticated. We support authentication using API tokens passed via HTTP headers. Step 1: Generate an API token in Settings \u2192 Developer Settings. Step 2: Include the token in your HTTP requests using the Authorization header formatted as 'Authorization: Bearer <API_TOKEN>'. API tokens have full read/write access to your metrics and alert rules, so keep them secure. Do not hardcode tokens in client-side code. If a token is compromised, revoke it immediately from the Developer Settings dashboard and generate a new one. We support up to 5 active API tokens per user account for separate scripting workflows.",
+  "last_updated": "2026-04-10",
+  "applies_to": [
+    "Developer",
+    "Pro",
+    "Enterprise"
+  ]
+}

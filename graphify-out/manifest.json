@@ -1,0 +1,397 @@
+{
+  "/home/greed/Downloads/Cloud-Support/main.py": {
+    "mtime": 1778742910.485848,
+    "ast_hash": "d05a940d4985aa0c61e1e97479e22d32",
+    "semantic_hash": "d05a940d4985aa0c61e1e97479e22d32"
+  },
+  "/home/greed/Downloads/Cloud-Support/tests/test_handover.py": {
+    "mtime": 1779277548.4830368,
+    "ast_hash": "0cfe76a60fe6d751d97c90af182f7ea7",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/tests/test_retrieval.py": {
+    "mtime": 1779277586.067213,
+    "ast_hash": "620a8319ca5d11f7ddac0ad46d734cab",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/tests/test_routing.py": {
+    "mtime": 1779276732.1097968,
+    "ast_hash": "7b4ce2fb692f94c64bdfba46e7e6bbf2",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/models/conversation.py": {
+    "mtime": 1778742583.0199237,
+    "ast_hash": "a150e280ee971b77c7849757a1d21220",
+    "semantic_hash": "a150e280ee971b77c7849757a1d21220"
+  },
+  "/home/greed/Downloads/Cloud-Support/models/handover.py": {
+    "mtime": 1778742583.0333495,
+    "ast_hash": "b1351b591026b780044c572b0daa6c77",
+    "semantic_hash": "b1351b591026b780044c572b0daa6c77"
+  },
+  "/home/greed/Downloads/Cloud-Support/models/agent_response.py": {
+    "mtime": 1778742583.0333495,
+    "ast_hash": "485c609720dab8baba52dba9c48d3d9e",
+    "semantic_hash": "485c609720dab8baba52dba9c48d3d9e"
+  },
+  "/home/greed/Downloads/Cloud-Support/models/message.py": {
+    "mtime": 1778742583.0333495,
+    "ast_hash": "7d48be3ba0d48e45d05e58ce0c28ff70",
+    "semantic_hash": "7d48be3ba0d48e45d05e58ce0c28ff70"
+  },
+  "/home/greed/Downloads/Cloud-Support/guardrails/output_guard.py": {
+    "mtime": 1779277365.2943397,
+    "ast_hash": "86b49749c438de245473652f26368e21",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/guardrails/input_guard.py": {
+    "mtime": 1779277359.307927,
+    "ast_hash": "16115d9e920f41e76a31a8cc8bc7f220",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/api/routes.py": {
+    "mtime": 1779277372.386828,
+    "ast_hash": "2aee13c06fcf296ff54ddb467e6bf61f",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/api/dependencies.py": {
+    "mtime": 1778693683.8605108,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/greed/Downloads/Cloud-Support/utils/helpers.py": {
+    "mtime": 1778693683.8605108,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/greed/Downloads/Cloud-Support/utils/logger.py": {
+    "mtime": 1778744115.5372152,
+    "ast_hash": "e3df6f830d04433a17027e05f2bc412c",
+    "semantic_hash": "e3df6f830d04433a17027e05f2bc412c"
+  },
+  "/home/greed/Downloads/Cloud-Support/utils/trace.py": {
+    "mtime": 1778743373.77203,
+    "ast_hash": "4b66494e6c60758e9168f224ef47e50e",
+    "semantic_hash": "4b66494e6c60758e9168f224ef47e50e"
+  },
+  "/home/greed/Downloads/Cloud-Support/agents/orchestrator.py": {
+    "mtime": 1779277510.9068162,
+    "ast_hash": "19a619e681ea3ade2d07b30f797a206e",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/agents/technical_agent.py": {
+    "mtime": 1778748807.2258618,
+    "ast_hash": "f149c1c6b1967ba2a3ec435c069638a6",
+    "semantic_hash": "f149c1c6b1967ba2a3ec435c069638a6"
+  },
+  "/home/greed/Downloads/Cloud-Support/agents/escalation_agent.py": {
+    "mtime": 1778747959.703542,
+    "ast_hash": "e570ba11e78c0fde3d46b8f9b7195baf",
+    "semantic_hash": "e570ba11e78c0fde3d46b8f9b7195baf"
+  },
+  "/home/greed/Downloads/Cloud-Support/agents/triage_agent.py": {
+    "mtime": 1778747933.1164258,
+    "ast_hash": "117cd58e7cceb185a652f0ae2135fe2f",
+    "semantic_hash": "117cd58e7cceb185a652f0ae2135fe2f"
+  },
+  "/home/greed/Downloads/Cloud-Support/agents/base_agent.py": {
+    "mtime": 1779276896.6551604,
+    "ast_hash": "c8b27ff940615786401f205f8b27a9c1",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/agents/billing_agent.py": {
+    "mtime": 1778747952.7405803,
+    "ast_hash": "33cbc4bddf2134010d01b4b9f29017c1",
+    "semantic_hash": "33cbc4bddf2134010d01b4b9f29017c1"
+  },
+  "/home/greed/Downloads/Cloud-Support/config/settings.py": {
+    "mtime": 1779277283.4576347,
+    "ast_hash": "4c0aa7f26269828ee83a98af49d3c149",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/billing/article_3.json": {
+    "mtime": 1779276273.1906233,
+    "ast_hash": "8ff2ce901f5702bb1f4e105358efe2bd",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/billing/article_2.json": {
+    "mtime": 1779276273.190461,
+    "ast_hash": "130b4e14cbd2cf306d00fd650148d2e4",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/billing/article_1.json": {
+    "mtime": 1779276273.1903799,
+    "ast_hash": "bab89f750476a6f638aae72b8a70afb1",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/billing/article_4.json": {
+    "mtime": 1779276273.1907508,
+    "ast_hash": "4699af49d0aab78d89064e37654a3973",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/access_management/article_3.json": {
+    "mtime": 1779276273.191531,
+    "ast_hash": "8ce346be885c2c5c3fb34f6925b8d41d",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/access_management/article_2.json": {
+    "mtime": 1779276273.1914244,
+    "ast_hash": "b6bb4167062f66abf727ab4da9d304bd",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/access_management/article_1.json": {
+    "mtime": 1779276273.1913278,
+    "ast_hash": "e131badc0a9e3c2864591523bab4baac",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/access_management/article_4.json": {
+    "mtime": 1779276273.1916263,
+    "ast_hash": "bb7928a4a0bcf22642b5a31bf518991f",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/troubleshooting/article_3.json": {
+    "mtime": 1779276273.190198,
+    "ast_hash": "a8305b640ed7c0c9a4b07e405b3628cc",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/troubleshooting/article_2.json": {
+    "mtime": 1779276273.1901176,
+    "ast_hash": "3237452d41970de4b1e8297c4e220d28",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/troubleshooting/article_1.json": {
+    "mtime": 1779276273.1900358,
+    "ast_hash": "fcd8bf43de72636eade64a4bc1cc51a4",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/troubleshooting/article_4.json": {
+    "mtime": 1779276273.190272,
+    "ast_hash": "22f5a76df6315cefcb0cd00e7345d8a6",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/api_docs/article_3.json": {
+    "mtime": 1779276273.1911044,
+    "ast_hash": "ed6b9291214ff5cb78c76f048855c669",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/api_docs/article_2.json": {
+    "mtime": 1779276273.190996,
+    "ast_hash": "5ecaacf5285e1f2727b7674e3a691cae",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/api_docs/article_1.json": {
+    "mtime": 1779276273.1908906,
+    "ast_hash": "c2e83afa50e5d921a7990981e152188d",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/api_docs/article_4.json": {
+    "mtime": 1779276273.191202,
+    "ast_hash": "321feb4832f14cb3d29cee8add5f56fc",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/faq/article_3.json": {
+    "mtime": 1779276273.1898243,
+    "ast_hash": "3cf4bea037e962fad4602f607d2b3e1b",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/faq/article_2.json": {
+    "mtime": 1779276273.189732,
+    "ast_hash": "e80ed3d1964d7b9148255fd62451dcf5",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/faq/article_1.json": {
+    "mtime": 1779276273.189585,
+    "ast_hash": "0bc4053e972a25f1d03d77fa99d9dafa",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/knowledge_base/faq/article_4.json": {
+    "mtime": 1779276273.1899197,
+    "ast_hash": "83ad1892606457b4bc8d77107fa3fe1a",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/handover/handover_manager.py": {
+    "mtime": 1779277434.989101,
+    "ast_hash": "3d2c2e2e0e290d5777fce193e7d285c2",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/handover/summarizer.py": {
+    "mtime": 1779277428.2216418,
+    "ast_hash": "d53aa39c70142f7c88b8780e23ad491f",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/handover/audit_logger.py": {
+    "mtime": 1778693683.8605108,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/greed/Downloads/Cloud-Support/retrieval/embeddings.py": {
+    "mtime": 1779276471.1627865,
+    "ast_hash": "80ebeb6d1a75db94f5393ca4f75931f7",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/retrieval/retriever.py": {
+    "mtime": 1778748933.6466987,
+    "ast_hash": "f2204251d17314fa1fad1e32ce6346fb",
+    "semantic_hash": "f2204251d17314fa1fad1e32ce6346fb"
+  },
+  "/home/greed/Downloads/Cloud-Support/retrieval/vector_store.py": {
+    "mtime": 1778693683.8605108,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/greed/Downloads/Cloud-Support/retrieval/ingest.py": {
+    "mtime": 1779276716.0968173,
+    "ast_hash": "4cd39a51081f1fe0084d50b27b9cf7f2",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.gemini/settings.json": {
+    "mtime": 1779271196.1956148,
+    "ast_hash": "f080aabf772e803c9e24b9ad0acbf2b6",
+    "semantic_hash": "f080aabf772e803c9e24b9ad0acbf2b6"
+  },
+  "/home/greed/Downloads/Cloud-Support/short-plan.md": {
+    "mtime": 1779272970.8543634,
+    "ast_hash": "7382aa2b239c8eb7f1e491130cfe8060",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/PLAN.md": {
+    "mtime": 1778735711.257867,
+    "ast_hash": "257a49ae37838a5b7258f60e8971c3c9",
+    "semantic_hash": "257a49ae37838a5b7258f60e8971c3c9"
+  },
+  "/home/greed/Downloads/Cloud-Support/README.md": {
+    "mtime": 1778735015.2317038,
+    "ast_hash": "3ece815ca1ff9846a3cdd80dffd4b5b6",
+    "semantic_hash": "3ece815ca1ff9846a3cdd80dffd4b5b6"
+  },
+  "/home/greed/Downloads/Cloud-Support/ARCHITECTURE.md": {
+    "mtime": 1778734936.7928264,
+    "ast_hash": "21ad576c3c5479859876da64e31ebdac",
+    "semantic_hash": "21ad576c3c5479859876da64e31ebdac"
+  },
+  "/home/greed/Downloads/Cloud-Support/GEMINI.md": {
+    "mtime": 1779271196.1953223,
+    "ast_hash": "82efb97a359f5c7290bf2513d14686be",
+    "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
+  },
+  "/home/greed/Downloads/Cloud-Support/requirements.txt": {
+    "mtime": 1778745667.0142734,
+    "ast_hash": "134449d83a682e1309f42611ca629ba6",
+    "semantic_hash": "134449d83a682e1309f42611ca629ba6"
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/skills/openspec-propose/SKILL.md": {
+    "mtime": 1779274357.1725852,
+    "ast_hash": "0753f4a4ce92da2b27bef07c994bef17",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/skills/openspec-apply-change/SKILL.md": {
+    "mtime": 1779274357.171937,
+    "ast_hash": "113ad4a13c30634311141d6dadcc0464",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/skills/openspec-archive-change/SKILL.md": {
+    "mtime": 1779274357.172223,
+    "ast_hash": "f010cb3292d101742592bcad1abfe762",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/skills/openspec-explore/SKILL.md": {
+    "mtime": 1779274357.1713445,
+    "ast_hash": "d160105373f4fe54bfbe1790b343c51b",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/workflows/opsx-explore.md": {
+    "mtime": 1779274357.1730297,
+    "ast_hash": "499dae8cb9d463bc7e7fa0a43a5634bc",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/workflows/opsx-apply.md": {
+    "mtime": 1779274357.1732733,
+    "ast_hash": "bb34cb1101207c46f0bb431f7b8e0c5a",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/workflows/opsx-archive.md": {
+    "mtime": 1779274357.1735477,
+    "ast_hash": "ff9017090a9eb3643dd810c32915d03b",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.agent/workflows/opsx-propose.md": {
+    "mtime": 1779274357.17381,
+    "ast_hash": "54c8d81441a57671450d903206978447",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/config/agents.yaml": {
+    "mtime": 1778747392.5311,
+    "ast_hash": "e7cfdf6f958431475e09e6b22223edae",
+    "semantic_hash": "e7cfdf6f958431475e09e6b22223edae"
+  },
+  "/home/greed/Downloads/Cloud-Support/config/routing.yaml": {
+    "mtime": 1778693683.8605108,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/config.yaml": {
+    "mtime": 1779274357.1792624,
+    "ast_hash": "9e3e7672b387a282583011181ab35f9a",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/changes/archive/2026-05-20-implement-rag-pipeline/proposal.md": {
+    "mtime": 1779276190.2650409,
+    "ast_hash": "4ec2570f0a641b97e701ee61e1ae63fe",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/changes/archive/2026-05-20-implement-rag-pipeline/.openspec.yaml": {
+    "mtime": 1779274460.639582,
+    "ast_hash": "351ae847e337a7fe3e300f524727860f",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/changes/archive/2026-05-20-implement-rag-pipeline/design.md": {
+    "mtime": 1779276195.88902,
+    "ast_hash": "a387cd06f895d661bac67b893b0aeb6a",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/changes/archive/2026-05-20-implement-rag-pipeline/tasks.md": {
+    "mtime": 1779276519.5039399,
+    "ast_hash": "5516f636f9e4b23249a606e0d4376d35",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/changes/archive/2026-05-20-implement-rag-pipeline/specs/knowledge-base/spec.md": {
+    "mtime": 1779274583.4770133,
+    "ast_hash": "a6e847ba5ce576a7ff18ef067a2c8d40",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/changes/archive/2026-05-20-implement-rag-pipeline/specs/rag-ingestion/spec.md": {
+    "mtime": 1779276200.6150117,
+    "ast_hash": "75cdfba157b8c423e3d31412aedad042",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/specs/knowledge-base/spec.md": {
+    "mtime": 1779276576.240767,
+    "ast_hash": "7e9ab8e62c4bcbf858ef193379340ead",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/openspec/specs/rag-ingestion/spec.md": {
+    "mtime": 1779276576.2422922,
+    "ast_hash": "3c257d858a2625ce67361daa2177426e",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.gemini/skills/openspec-propose/SKILL.md": {
+    "mtime": 1779274357.1761794,
+    "ast_hash": "0753f4a4ce92da2b27bef07c994bef17",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.gemini/skills/openspec-apply-change/SKILL.md": {
+    "mtime": 1779274357.1761794,
+    "ast_hash": "113ad4a13c30634311141d6dadcc0464",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.gemini/skills/openspec-archive-change/SKILL.md": {
+    "mtime": 1779274357.1761794,
+    "ast_hash": "f010cb3292d101742592bcad1abfe762",
+    "semantic_hash": ""
+  },
+  "/home/greed/Downloads/Cloud-Support/.gemini/skills/openspec-explore/SKILL.md": {
+    "mtime": 1779274357.1761794,
+    "ast_hash": "d160105373f4fe54bfbe1790b343c51b",
+    "semantic_hash": ""
+  }
+}

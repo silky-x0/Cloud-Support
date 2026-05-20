@@ -55,7 +55,7 @@ CloudDash Support is a **multi-agent customer support system** that:
 ### Prerequisites
 
 - Python 3.11+
-- An OpenAI API key (or configure a local model — see [Configuration](#configuration))
+- An **OpenRouter API key** (`OPEN_ROUTER_KEY`) — free models are used by default (no cost)
 
 ### 1. Clone and set up environment
 
@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 ```bash
 cp .env.example .env
-# Edit .env and add your OPENAI_API_KEY (and optionally LANGFUSE keys)
+# Edit .env — set OPEN_ROUTER_KEY (get a free key at openrouter.ai)
 ```
 
 ### 3. Ingest the knowledge base
@@ -380,13 +380,14 @@ pytest tests/ --cov=. --cov-report=html
 
 | Scenario | Test File |
 |----------|-----------|
-| Single-agent technical resolution | `test_single_agent_flow.py` |
-| Cross-agent handover (Tech → Billing) | `test_cross_agent_handover.py` |
-| Escalation to human | `test_escalation_flow.py` |
-| KB retrieval failure + graceful fallback | `test_retriever.py` |
-| Input guardrail (injection attempt) | `test_guardrails.py` |
-| Output guardrail (PII in response) | `test_guardrails.py` |
-| Handover failure + fallback routing | `test_handover.py` |
+| Triage intent classification (all 4 scenarios) | `unit/test_triage.py` |
+| KB retrieval returns cited chunks | `unit/test_retriever.py` |
+| Input guardrail — injection detection | `unit/test_guardrails.py` |
+| Output guardrail — PII redaction | `unit/test_guardrails.py` |
+| HandoverManager payload + audit log | `test_handover.py` |
+| Scenario 1 — single-agent technical flow | `integration/test_scenario_1.py` |
+| Scenario 2 — cross-agent handover Tech→Billing | `integration/test_scenario_2.py` |
+| Scenario 3 — billing dispute → escalation | `integration/test_scenario_3.py` |
 
 ---
 
@@ -395,33 +396,21 @@ pytest tests/ --cov=. --cov-report=html
 Copy `.env.example` to `.env` and fill in the values:
 
 ```bash
-# ── LLM ──────────────────────────────────────────────────────
-OPENAI_API_KEY=sk-...              # Required
-OPENAI_MODEL=gpt-4o-mini           # Default model
-OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+# ── API Keys ──────────────────────────────────────────────────
+OPEN_ROUTER_KEY=your_openrouter_key  # Required — get free key at openrouter.ai
+OPENAI_API_KEY=                      # Optional — fallback if OPEN_ROUTER_KEY not set
+
+# ── Model Configuration ───────────────────────────────────────
+OPENAI_MODEL=nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
+EMBEDDING_MODEL=nvidia/llama-nemotron-embed-vl-1b-v2:free
 
 # ── Vector Store ──────────────────────────────────────────────
-CHROMA_PERSIST_DIR=./chroma_db     # ChromaDB persistence directory
-USE_FAISS=false                    # Set true to use FAISS instead
-
-# ── State Store ───────────────────────────────────────────────
-REDIS_URL=                         # Optional — leave empty for in-memory state
-
-# ── Observability (optional) ──────────────────────────────────
-LANGFUSE_PUBLIC_KEY=
-LANGFUSE_SECRET_KEY=
-LANGFUSE_HOST=https://cloud.langfuse.com
-
-# ── Guardrails ────────────────────────────────────────────────
-ENABLE_INPUT_GUARDRAIL=true
-ENABLE_OUTPUT_GUARDRAIL=true
-PII_REDACTION_ENABLED=true
+CHROMA_PERSIST_DIRECTORY=./chroma_db
 
 # ── Server ────────────────────────────────────────────────────
 HOST=0.0.0.0
 PORT=8000
 LOG_LEVEL=INFO
-LOG_FORMAT=json                    # json | text
 ```
 
 ---

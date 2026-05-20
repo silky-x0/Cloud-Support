@@ -1,0 +1,18 @@
+{
+  "id": "KB-BIL-004",
+  "title": "Accepted Payment Methods and Invoicing",
+  "category": "billing",
+  "tags": [
+    "payment",
+    "credit-card",
+    "ach",
+    "wire",
+    "invoice"
+  ],
+  "content": "CloudDash accepts major credit cards (Visa, MasterCard, American Express, Discover) for all Developer and Pro subscriptions. For Enterprise plans, we support payment via credit card, ACH, wire transfer, and purchase order invoicing with Net 30 terms. You can update your payment method at any time in Billing Settings \u2192 Payment Methods. Invoices are generated automatically on the 1st of each month and emailed to the designated billing contact. If you need custom billing details (such as VAT ID or PO number) added to your invoices, you can configure this in Billing Settings \u2192 Invoice Details. We support split-billing and direct invoicing for multiple entities under a parent organization.",
+  "last_updated": "2026-03-10",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

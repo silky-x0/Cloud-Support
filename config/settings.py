@@ -18,11 +18,12 @@ class Settings(BaseSettings):
     )
 
     # ── API Keys ─────────────────────────────────────────────────────────────
-    OPENAI_API_KEY: str
+    OPENAI_API_KEY: Optional[str] = None
+    OPEN_ROUTER_KEY: Optional[str] = None
     
     # ── Model Configuration ──────────────────────────────────────────────────
-    OPENAI_MODEL: str = "gpt-4o-mini"
-    EMBEDDING_MODEL: str = "text-embedding-3-small"
+    OPENAI_MODEL: str = "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
+    EMBEDDING_MODEL: str = "nvidia/llama-nemotron-embed-vl-1b-v2:free"
     
     # ── Database & Storage ───────────────────────────────────────────────────
     CHROMA_PERSIST_DIRECTORY: str = "./chroma_db"
@@ -37,3 +38,4 @@ class Settings(BaseSettings):
 
 # Global settings instance
 settings = Settings()
+

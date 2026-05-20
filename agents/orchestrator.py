@@ -10,10 +10,12 @@ from models.conversation import ConversationState
 from models.agent_response import AgentResponse
 from models.message import Message
 from utils.trace import trace_context
+from handover.handover_manager import HandoverManager
 
 logger = logging.getLogger(__name__)
 
 _sessions: dict[str, ConversationState] = {}
+_handover_manager = HandoverManager()
 # ---------------------------------------------------------------------------
 _agents: dict[str, BaseAgent] = {}
 
@@ -144,7 +146,7 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
         handover_count = 0
         while response.handover_required and handover_count < MAX_HANDOVERS:
             target = response.handover_target or "triage"
-            _do_handover(
+            _handover_manager.execute(
                 state,
                 source=state.current_agent,
                 target=target,
@@ -159,7 +161,7 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
                 )
                 # Fallback: route back to triage, then escalate if it fails again
                 if state.current_agent != "triage":
-                    _do_handover(
+                    _handover_manager.execute(
                         state,
                         source=state.current_agent,
                         target="triage",
@@ -180,6 +182,10 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
             logger.info("ESCALATION", extra={"reason": "agent_flagged"})
             response = await agents["escalation"].handle(user_message, state)
 
+        # Apply Output Guardrail
+        from guardrails.output_guard import redact_pii
+        response.content = redact_pii(response.content)
+
         # ── Step 5: Persist turn to history ──────────────────────────────────────
         state.messages.append(Message(role="user", content=user_message, agent="user"))
         state.messages.append(
@@ -194,35 +200,3 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
 
         return response
 
-
-# ---------------------------------------------------------------------------
-# Internal helpers
-# ---------------------------------------------------------------------------
-
-
-def _do_handover(
-    state: ConversationState, source: str, target: str, reason: str
-) -> None:
-    """Switch the active agent and write an audit log entry."""
-    import json
-    import os
-
-    log_entry = {
-        "handover_id": str(uuid.uuid4()),
-        "timestamp": datetime.utcnow().isoformat(),
-        "trace_id": state.trace_id,
-        "conversation_id": state.conversation_id,
-        "source_agent": source,
-        "target_agent": target,
-        "reason": reason,
-        "context_messages": len(state.messages),
-    }
-
-    os.makedirs("handover", exist_ok=True)
-    with open("handover/audit.jsonl", "a") as f:
-        f.write(json.dumps(log_entry) + "\n")
-
-    logger.info("HANDOVER", extra=log_entry)
-
-    state.current_agent = target
-    state.handover_history.append(log_entry)

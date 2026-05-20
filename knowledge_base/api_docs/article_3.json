@@ -1,0 +1,17 @@
+{
+  "id": "KB-API-003",
+  "title": "Alert Rules Management API",
+  "category": "api_docs",
+  "tags": [
+    "api",
+    "alerts",
+    "rules",
+    "crud"
+  ],
+  "content": "You can programmatically manage alert rules using the /api/v1/rules endpoint. GET /api/v1/rules returns a list of all configured alert rules. POST /api/v1/rules creates a new alert rule; the request body must contain 'name', 'metric', 'condition' (e.g. gt), 'threshold' (float), and 'actions' (array of notification channel IDs). PUT /api/v1/rules/{id} updates an existing rule, and DELETE /api/v1/rules/{id} removes a rule. Example payload: {'name': 'High CPU', 'metric': 'system.cpu.user', 'condition': 'gt', 'threshold': 90.0, 'actions': ['slack-prod']}. You can also query the alert rule history to trace all past configurations and updates.",
+  "last_updated": "2026-05-02",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

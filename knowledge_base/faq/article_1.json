@@ -1,0 +1,18 @@
+{
+  "id": "KB-FAQ-001",
+  "title": "CloudDash General Frequently Asked Questions",
+  "category": "faq",
+  "tags": [
+    "faq",
+    "general",
+    "clouddash",
+    "overview"
+  ],
+  "content": "CloudDash is a modern observability platform. It helps engineering teams monitor infrastructure, track application performance, and aggregate logs in a single unified dashboard. CloudDash supports real-time alert routing, anomaly detection, and automated escalation flows. For standard monitoring, we ingest metrics from AWS, GCP, Azure, and Kubernetes. The standard data retention period is 14 days for the Developer tier, 30 days for the Pro tier, and 90 days for the Enterprise tier. Customer support is available 24/7 for Enterprise accounts and business hours for Pro accounts. Additional infrastructure metrics include disk utilization, memory pressure, swap utilization, network interface throughput (both bytes sent and received), context switches, interrupt rates, and process counts. These metrics are collected at a default frequency of 10 seconds but can be configured down to 1 second for high-resolution monitoring. Custom metrics can also be sent via our API or daemon client using StatsD format.",
+  "last_updated": "2026-05-10",
+  "applies_to": [
+    "Developer",
+    "Pro",
+    "Enterprise"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "KB-ACC-004",
+  "title": "Enforcing Multi-Factor Authentication (MFA)",
+  "category": "access_management",
+  "tags": [
+    "mfa",
+    "2fa",
+    "security",
+    "enforcement",
+    "totp"
+  ],
+  "content": "Multi-Factor Authentication (MFA) adds an extra layer of security by requiring a verification code from a mobile authenticator app (such as Google Authenticator or Duo) during login. Individual users can enable MFA in User Profile \u2192 Security. For Pro and Enterprise teams, administrators can enforce MFA globally from the Organization Settings page. When enforced, all users will be prompted to set up MFA upon their next login. Administrators can view compliance status and generate temporary emergency backup codes for locked-out users. We also support hardware security keys (FIDO2/WebAuthn) for secure physical second-factor authentication.",
+  "last_updated": "2026-04-28",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

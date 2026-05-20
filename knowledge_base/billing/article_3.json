@@ -1,0 +1,17 @@
+{
+  "id": "KB-BIL-003",
+  "title": "Upgrading from Pro to Enterprise Subscription",
+  "category": "billing",
+  "tags": [
+    "upgrade",
+    "pro",
+    "enterprise",
+    "plan",
+    "sales"
+  ],
+  "content": "Upgrading from a Pro plan to Enterprise unlocks advanced security and governance features including Single Sign-On (SSO/SAML), advanced custom RBAC, audit logging, and unlimited alerting. Step 1: Go to Settings \u2192 Billing. Step 2: Under subscription plans, click 'Upgrade to Enterprise'. Step 3: Complete the enterprise request form with your seat estimate. Step 4: Our sales operations team will review and contact you with a customized contract. Note: SSO setup and custom data retention policies are only available on the Enterprise tier. Once the contract is signed, the upgrade is applied instantly without any agent redeployment or metrics loss. Custom data privacy agreements and service level agreements (SLAs) will also be negotiated during this process.",
+  "last_updated": "2026-05-12",
+  "applies_to": [
+    "Pro"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "KB-ACC-001",
+  "title": "Single Sign-On (SSO) and SAML Integration Guide",
+  "category": "access_management",
+  "tags": [
+    "sso",
+    "saml",
+    "okta",
+    "active-directory",
+    "identity",
+    "authentication"
+  ],
+  "content": "Single Sign-On (SSO) integration allows users to authenticate using your identity provider (IdP) such as Okta, Microsoft Entra ID (Active Directory), Ping Identity, or Google Workspace. SSO/SAML configuration is an Enterprise-only capability. Step 1: Navigate to Settings \u2192 Authentication \u2192 SSO. Step 2: Copy the Service Provider Metadata URL and Entity ID. Step 3: In your IdP, create a new SAML 2.0 integration and paste these URLs. Step 4: Configure user attribute mappings (email, first name, last name). Step 5: Upload your IdP SAML XML metadata file back into CloudDash. Step 6: Test SSO login with a pilot user. Once enabled, standard password login can be disabled for all team members. We support both service provider initiated (SP-initiated) and identity provider initiated (IdP-initiated) logins. If you encounter issues during setup, check your identity provider logs for SAML signature validation errors. Ensure that the assertion consumer service (ACS) URL in Okta or Entra ID uses HTTPS and points directly to the auth endpoint of your CloudDash region.",
+  "last_updated": "2026-05-14",
+  "applies_to": [
+    "Enterprise"
+  ]
+}

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: clouddash-support
+    runtime: python
+    buildCommand: |
+      pip install -r requirements.txt &&
+      python -m retrieval.ingest
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPEN_ROUTER_KEY
+        sync: false          # set manually in Render dashboard
+      - key: OPENAI_MODEL
+        value: nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
+      - key: EMBEDDING_MODEL
+        value: nvidia/llama-nemotron-embed-vl-1b-v2:free
+      - key: CHROMA_PERSIST_DIRECTORY
+        value: /data/chroma_db
+      - key: LOG_LEVEL
+        value: INFO
+    disk:
+      name: chroma-data
+      mountPath: /data
+      sizeGB: 1

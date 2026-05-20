@@ -1,0 +1,19 @@
+{
+  "id": "KB-FAQ-002",
+  "title": "CloudDash Pricing Tiers and Plans",
+  "category": "faq",
+  "tags": [
+    "pricing",
+    "plans",
+    "tiers",
+    "pro",
+    "enterprise"
+  ],
+  "content": "CloudDash offers three distinct pricing plans. 1. Developer: Free, limited to 3 hosts, 14-day metric retention, and basic community support. 2. Pro: $15/host/month, includes unlimited hosts, 30-day retention, custom dashboards, alert routing, and email/Slack support. 3. Enterprise: Custom pricing, includes 90-day retention, Single Sign-On (SSO/SAML), advanced role-based access control, dedicated account manager, audit logs, and a 99.9% uptime SLA. Upgrades from Pro to Enterprise can be performed seamlessly from the billing page, but require our sales team to finalize custom contract pricing. We also offer volume-based discounts for large deployments with more than 500 hosts, as well as special pricing packages for non-profit organizations, educational institutions, and early-stage startups.",
+  "last_updated": "2026-04-20",
+  "applies_to": [
+    "Developer",
+    "Pro",
+    "Enterprise"
+  ]
+}

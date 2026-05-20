@@ -1,0 +1,18 @@
+{
+  "id": "KB-TR-003",
+  "title": "Debugging Offline CloudDash Agents",
+  "category": "troubleshooting",
+  "tags": [
+    "agent",
+    "offline",
+    "connection",
+    "daemon"
+  ],
+  "content": "When a CloudDash agent reports as 'Offline' in the dashboard, it means the agent daemon has stopped sending heartbeats. Step 1: Log in to the host machine. Step 2: Run 'sudo systemctl status clouddash-agent' to check if the daemon is running. Step 3: If stopped, restart it using 'sudo systemctl restart clouddash-agent'. Step 4: Check agent logs at '/var/log/clouddash-agent/agent.log' for connection errors. Common causes include outgoing port 443 blockages on firewall or an invalid API key in '/etc/clouddash-agent/config.yaml'. Verify your API key in the CloudDash settings. If the daemon fails to start, verify that the configuration file is well-formed YAML and contains no syntax errors.",
+  "last_updated": "2026-05-05",
+  "applies_to": [
+    "Developer",
+    "Pro",
+    "Enterprise"
+  ]
+}

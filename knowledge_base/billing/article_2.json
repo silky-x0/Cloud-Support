@@ -1,0 +1,17 @@
+{
+  "id": "KB-BIL-002",
+  "title": "Refund Policy and Process",
+  "category": "billing",
+  "tags": [
+    "refund",
+    "policy",
+    "guarantee",
+    "cancellation"
+  ],
+  "content": "CloudDash offers a 14-day money-back guarantee for all new Pro subscriptions. If you cancel your subscription within 14 days of your initial purchase, you are eligible for a full refund. To request a refund, please navigate to Billing \u2192 Subscription and click 'Cancel Subscription', then submit a refund request ticket. For billing disputes or issues such as duplicate charges, we issue refunds outside the 14-day window upon reviewing transaction logs. If you want to speak to a manager or escalate a billing dispute, our support agents will create a P1 priority escalation ticket for the finance operations team. Our finance department reviews all disputed charges within 48 hours.",
+  "last_updated": "2026-05-15",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}

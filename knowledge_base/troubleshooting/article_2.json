@@ -1,0 +1,17 @@
+{
+  "id": "KB-TR-002",
+  "title": "How to Configure Alert Thresholds",
+  "category": "troubleshooting",
+  "tags": [
+    "alerts",
+    "configuration",
+    "thresholds",
+    "rules"
+  ],
+  "content": "Step-by-step guide to configuring alert thresholds. Step 1: Navigate to Alerts \u2192 Rules in the main sidebar. Step 2: Click 'Create Rule' or select an existing rule to edit. Step 3: Define the metric query (e.g., system.cpu.user). Step 4: Set the evaluation window (e.g., average over 5 minutes). Step 5: Configure the critical and warning thresholds. Step 6: Choose the notification channel (email, Slack, webhook). Click Save. Note: CPU thresholds should typically be set above 85% for sustained periods of 5 minutes or more to avoid transient spikes triggering false alert notifications. You can also configure dead-man alerts to trigger when metrics stop arriving completely for a defined period.",
+  "last_updated": "2026-04-15",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ]
+}
