@@ -42,7 +42,7 @@ CloudDash Support is a **multi-agent customer support system** that:
 | **Agents** | Triage · Technical Support · Billing · Escalation |
 | **RAG** | Dense vector search + BM25 keyword + RRF fusion + cross-encoder re-ranking |
 | **Knowledge Base** | 20+ articles across FAQ, Troubleshooting, Billing, API Docs, Account |
-| **Handovers** | Full context preservation, entity transfer, fallback routing, audit logging |
+| **Handovers** | Full context preservation, entity transfer, fallback routing, audit logging, aggregated responses |
 | **Guardrails** | Prompt injection detection · PII redaction · Hallucination check |
 | **Observability** | Structured JSON logs · trace_id propagation · optional Langfuse tracing |
 | **Config** | YAML-driven agent definitions — add new agents without touching core code |
@@ -122,6 +122,7 @@ python cli.py
 cloud-support/
 │
 ├── main.py                   # FastAPI application entrypoint
+├── cli.py                    # Interactive terminal chat session
 ├── requirements.txt
 ├── .env.example              # Environment variable template
 ├── README.md
@@ -435,9 +436,15 @@ ChromaDB runs locally with zero infrastructure — no account needed, no cost, p
 
 Pure vector search misses exact-match queries for technical terms like "SSO", "SAML", "BM25", "webhook". BM25 excels at these. RRF fusion captures the best of both, and cross-encoder re-ranking (using `cross-encoder/ms-marco-MiniLM-L-6`) significantly improves precision on the final top-k.
 
-### Why pull-based handover?
+### Why orchestrated aggregated handovers?
 
-The target agent must explicitly `acknowledge()` the handover payload before the source agent releases ownership. This enables the target to validate context completeness and trigger a fallback if something is wrong, rather than blindly accepting a broken state.
+Instead of a simple "push" handover where the user is just transferred, the Orchestrator aggregates responses from multiple agents in a single turn. For example, if a user asks to fix a technical issue and then upgrade their plan, the Orchestrator:
+1. Invokes the Technical Agent to provide the fix.
+2. Detects the need for a Billing handover.
+3. Invokes the Billing Agent to handle the upgrade.
+4. Aggregates both responses into a single, cohesive message for the user.
+
+This ensures a higher quality of service and reduces the "ping-pong" effect for the customer.
 
 ---
 

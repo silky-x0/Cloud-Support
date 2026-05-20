@@ -44,7 +44,7 @@
 │  │ Conversation │ ──────────────────► │  Agent Registry    │  │
 │  │    State     │                      │  (from YAML config)│  │
 │  │  (in-memory  │ ◄────────────────── │                    │  │
-│  │  + Redis opt)│   Context Preserved  └────────────────────┘  │
+│  │  + Redis opt)│   Aggregates Resps   └────────────────────┘  │
 │  └──────────────┘                                              │
 └──────────┬────────────────────────────────────────────────────┘
            │ dispatches to
@@ -100,8 +100,9 @@
           ▼
 ┌────────────────────────────────────────────────────────────────┐
 │                        LLM LAYER                                │
-│  OpenAI GPT-4o-mini (configurable)                             │
-│  System prompt loaded from agents.yaml per-agent               │
+│  OpenRouter API (openai-compatible)                             │
+│  Chat model:  nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free │
+│  System prompt loaded from agents.yaml per-agent                │
 └────────────────────────────────────────────────────────────────┘
           │
           ▼
@@ -137,12 +138,14 @@
 ### Cross-Agent Handover Path (additional steps after step 10)
 
 ```
-10b. Agent ──handover_required? YES─────────────►  HandoverManager
-10c. HM    ──build HandoverPayload──────────────►  (history + entities + summary)
-10d. HM    ──target_agent.acknowledge(payload)──►  Target Agent
-10e. HM    ──emit HandoverAuditLog──────────────►  Audit Logger
-10f. Target──continue conversation──────────────►  (step 6 onwards for new intent)
-     fallback: HM ──route back to Triage──────►  (if target rejects)
+10b. Agent ──handover_required? YES─────────────►  Orchestrator
+10c. Orch. ──persists current response──────────►  State Store
+10d. Orch. ──delegates to HandoverManager───────►  HandoverManager
+10e. HM    ──emits HandoverAuditLog─────────────►  Audit Logger
+10f. Orch. ──invoke(target_agent, query)────────►  Target Agent
+10g. Target──resolves new intent (step 6+)──────►  Target Agent
+10h. Orch. ──aggregates responses───────────────►  Orchestrator
+     fallback: HM ──route back to Triage──────►  (if target fails)
 ```
 
 ---
@@ -156,15 +159,19 @@
 | `routes.py` | FastAPI router — conversation CRUD + message endpoints |
 | `dependencies.py` | DI wiring — injects Orchestrator, Guardrails, Logger |
 
-**Endpoints:**
+**Implemented endpoints:**
 
 ```
-POST   /api/v1/conversations                  → Start new conversation
-POST   /api/v1/conversations/{id}/messages    → Send message, get response
-GET    /api/v1/conversations/{id}             → Fetch conversation state
-GET    /api/v1/conversations/{id}/history     → Full message history
-GET    /api/v1/health                         → Liveness check
+POST   /api/v1/conversations                  → Start new conversation → {conversation_id, trace_id}
+POST   /api/v1/conversations/{id}/messages    → Send message → {agent, content, citations}
+GET    /api/v1/conversations/{id}             → (via history) Fetch conversation state
+GET    /api/v1/conversations/{id}/history     → Full message history → List[Message]
+POST   /api/v1/chat                          → Legacy stub endpoint (returns STUB: … for integration tests)
+GET    /api/v1/health                         → Liveness check → {"status": "ok"}
 ```
+
+Input guardrail (`check_input`) runs inside `POST …/messages` before the orchestrator is called.
+Output guardrail (`redact_pii`) is applied inside the orchestrator after the final agent response.
 
 ### 3.2 Orchestrator (`agents/orchestrator.py`)
 
@@ -363,23 +370,25 @@ class HandoverPayload(BaseModel):
     sentiment:        float          # -1.0 to 1.0
 ```
 
-### 6.2 Handover State Machine
+### 6.2 Handover State Machine (Orchestrator-driven)
 
 ```
 INITIATED
     │
     ▼
-PACKAGING  ←── HandoverManager.build_payload()
+ORCHESTRATOR DETECTS HANDOVER_REQUIRED == True
     │
-    ▼
-DISPATCHED ←── target_agent.acknowledge(payload)
+    ├──► 1. Orchestrator captures current agent response & citations
     │
-    ├──► ACCEPTED  → conversation continues with target agent
+    ├──► 2. HandoverManager.execute()
+    │       • Builds Payload
+    │       • Logs Audit Event
     │
-    └──► REJECTED  → fallback_strategy()
-              │
-              ├──► route to Triage (default)
-              └──► route to Escalation (if 2nd failure)
+    ├──► 3. Orchestrator invokes target_agent
+    │
+    ├──► 4. Orchestrator aggregates new response with previous
+    │
+    └──► 5. Returns combined message to user
 ```
 
 ### 6.3 Audit Log Entry (JSONL)
@@ -406,17 +415,20 @@ DISPATCHED ←── target_agent.acknowledge(payload)
 
 | Check | Method | Action on Fail |
 |-------|--------|----------------|
-| Prompt Injection | Regex + LLM classifier | Reject with 400, log |
-| Off-topic Filter | Embedding cosine distance from domain centroid | Soft redirect to Triage |
-| Message Length | Token count > 2048 | Truncate + warn |
+| Prompt Injection | Regex (6 patterns: ignore instructions, act as, disregard, jailbreak, DAN mode) | HTTP 400 + `GUARDRAIL_TRIGGERED` log |
+| Message Length | `len(text) > 2048` characters | HTTP 400 `length_exceeded` |
+
+Returns a `GuardrailResult(passed: bool, reason: Optional[str])` Pydantic model.
+Called inside `POST /conversations/{id}/messages` **before** the orchestrator.
 
 ### 7.2 Output Guardrail (`guardrails/output_guard.py`)
 
 | Check | Method | Action on Fail |
 |-------|--------|----------------|
-| PII Redaction | Regex (email, phone, CC, SSN) | Redact before returning |
-| Hallucination Check | Claim vs KB chunk overlap score | Append disclaimer / force escalation |
-| Policy Violation | LLM check: "does response promise unverified pricing?" | Strip and substitute safe fallback |
+| PII Redaction | Regex (email, phone `\d{3}-\d{3}-\d{4}`, credit card `\d{4}-\d{4}-\d{4}-\d{4}`) | Inline replacement with `[REDACTED_EMAIL]` / `[REDACTED_PHONE]` / `[REDACTED_CC]` |
+
+Called inside the orchestrator **after** the final agent response, before history persistence.
+The `redact_pii(text: str) -> str` function is stateless and idempotent.
 
 ### 7.3 KB Grounding Rule
 
@@ -569,13 +581,15 @@ To add a new **Onboarding Agent** (example):
 |----------|--------|----------------------|-----------|
 | Orchestration Pattern | Custom async Orchestrator | LangGraph / CrewAI | Full control; no framework lock-in; lighter for prototype |
 | Vector Store | ChromaDB | Pinecone / Qdrant | Local-first, zero cost, persistent; easy swap via adapter |
-| Embeddings | OpenAI `text-embedding-3-small` | Sentence Transformers | Better quality; local fallback provided |
-| LLM | GPT-4o-mini | Claude / Gemini | Cost-efficient for support; configurable to swap |
+| Embeddings | OpenRouter `nvidia/llama-nemotron-embed-vl-1b-v2:free` | OpenAI `text-embedding-3-small` | Zero cost on free tier; OpenRouter wrapper reuses same HTTP client |
+| LLM | OpenRouter `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` | GPT-4o-mini / Gemini Flash | Free tier; configurable via `OPENAI_MODEL` env var — swap without code changes |
+| LLM Client | `openai.AsyncOpenAI` pointed at OpenRouter base URL | `httpx` direct | OpenAI SDK handles retry, timeout, streaming; OpenRouter is OpenAI-compatible |
 | State Storage | In-memory dict + optional Redis | Full DB (PostgreSQL) | Fast for prototype; Redis optional for persistence |
-| Handover Strategy | Pull (target acknowledges) | Push (source blindly transfers) | Target can reject and trigger fallback |
-| Retrieval | Hybrid dense + BM25 + rerank | Dense-only | Better recall for exact KB terminology (e.g., "SSO", "BM25") |
+| Handover Strategy | Orchestrated Aggregation + Audit Log | Push/Pull target acknowledgement | Orchestrator aggregates responses in a single turn, providing a cohesive multi-intent reply without client-side looping. |
+| Retrieval | Dense vector search (ChromaDB similarity) | Hybrid dense + BM25 + rerank | MVP scope; architecture designed so hybrid can be layered in without API changes |
 | Agent Config | YAML-driven class loading | Hardcoded factories | Adding agent = add YAML + file, no core code changes |
 | API Framework | FastAPI | Flask / Django | Native async, auto-OpenAPI docs, Pydantic integration |
+| Guardrails | Regex-based (input) + Regex-based PII (output) | LLM-based classifiers | Zero latency, zero cost, deterministic; LLM-based checks are a named limitation |
 
 ### Known Limitations
 
