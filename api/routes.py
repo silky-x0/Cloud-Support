@@ -89,11 +89,28 @@ async def send_message(id: str, body: MessageRequest):
         )
 
     try:
+        state = get_conversation(id)
+        if not state:
+            raise KeyError(f"Conversation {id} not found")
+            
+        # Track initial agent to detect handover
+        initial_agent = state.current_agent
+        
         response = await chat(id, body.content)
+        
+        # Determine if handover occurred (either current_agent changed or orchestrator loop did it)
+        # Note: orchestrator.chat might change state.current_agent multiple times.
+        # We can check if the final responding agent is different from the initial one,
+        # or if the orchestrator specifically tells us.
+        # For simplicity, if the initial_agent was triage and it routed, we might not count it as "handover" 
+        # but rather "initial routing". But README implies cross-agent.
+        
         return MessageResponse(
             agent=response.agent,
             content=response.content,
-            citations=response.citations
+            citations=response.citations,
+            trace_id=state.trace_id,
+            handover_occurred=response.agent != initial_agent
         )
     except KeyError as e:
         raise HTTPException(status_code=404, detail=str(e))
