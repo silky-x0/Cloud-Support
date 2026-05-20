@@ -46,10 +46,25 @@ KNOWLEDGE BASE CONTEXT:
             if "I don't have verified information" in content:
                 escalate = True
 
+            # Detect if we need to handover to billing (Scenario 2)
+            handover_required = False
+            handover_target = None
+            
+            billing_triggers = ["upgrade", "billing", "invoice", "plan", "subscription", "enterprise", "pro"]
+            has_billing_intent = any(trigger in query.lower() for trigger in billing_triggers)
+            has_billing_entity = state.extracted_entities.get("plan_change") is not None
+            
+            if has_billing_intent or has_billing_entity:
+                handover_required = True
+                handover_target = "billing"
+                logger.info(f"Technical agent triggering handover to {handover_target}")
+
             return AgentResponse(
                 agent=self.name,
                 content=content,
                 citations=citations,
+                handover_required=handover_required,
+                handover_target=handover_target,
                 escalate=escalate,
                 confidence=1.0 if citations else 0.5
             )
