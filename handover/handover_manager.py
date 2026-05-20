@@ -1,7 +1,7 @@
 import uuid
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any
 # pyrefly: ignore [missing-import]
 from pydantic import BaseModel
@@ -36,7 +36,7 @@ class HandoverManager:
 
         payload = HandoverPayload(
             handover_id=str(uuid.uuid4()),
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             source_agent=source,
             target_agent=target,
             reason=reason,
@@ -60,3 +60,4 @@ class HandoverManager:
         os.makedirs(os.path.dirname(self.audit_log_path), exist_ok=True)
         with open(self.audit_log_path, "a") as f:
             f.write(payload.model_dump_json() + "\n")
+

@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # pyrefly: ignore [missing-import]
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 # pyrefly: ignore [missing-import]
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # pyrefly: ignore [missing-import]

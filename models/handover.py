@@ -1,12 +1,12 @@
 # pyrefly: ignore [missing-import]
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class HandoverPayload(BaseModel):
     handover_id: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     source_agent: str
     target_agent: str
     reason: str

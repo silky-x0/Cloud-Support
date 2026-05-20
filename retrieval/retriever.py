@@ -2,7 +2,8 @@ import os
 import logging
 from typing import List, Tuple
 
-from langchain_community.vectorstores import Chroma
+# pyrefly: ignore [missing-import]
+from langchain_chroma import Chroma
 from retrieval.embeddings import get_embeddings
 from models.message import Citation
 
