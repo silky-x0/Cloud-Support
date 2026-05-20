@@ -13,6 +13,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 # pyrefly: ignore [missing-import]
 from fastapi.testclient import TestClient
 from main import app
+from models.agent_response import AgentResponse
+from models.message import Citation
 
 client = TestClient(app)
 
@@ -34,33 +36,32 @@ def test_scenario2_cross_agent_handover():
     assert resp.status_code == 200
     conv_id = resp.json()["conversation_id"]
 
-    mock_citation = MagicMock()
-    mock_citation.kb_id = "KB-012"
-    mock_citation.title = "SSO SAML Configuration"
-    mock_citation.snippet = "Configure SSO via Settings → Auth → SAML..."
-    mock_citation.score = 0.88
-    mock_citation.model_dump = lambda: {
-        "kb_id": "KB-012", "title": "SSO SAML Configuration",
-        "snippet": "Configure SSO via Settings → Auth → SAML...", "score": 0.88
-    }
+    mock_citation = Citation(
+        kb_id="KB-012",
+        title="SSO SAML Configuration",
+        snippet="Configure SSO via Settings → Auth → SAML...",
+        score=0.88
+    )
 
     # Technical agent response that triggers handover
-    tech_agent_response = MagicMock()
-    tech_agent_response.agent = "technical"
-    tech_agent_response.content = _TECHNICAL_RESPONSE
-    tech_agent_response.citations = [mock_citation]
-    tech_agent_response.handover_required = True
-    tech_agent_response.handover_target = "billing"
-    tech_agent_response.escalate = False
-    tech_agent_response.routing_decision = None
+    tech_agent_response = AgentResponse(
+        agent="technical",
+        content=_TECHNICAL_RESPONSE,
+        citations=[mock_citation],
+        handover_required=True,
+        handover_target="billing",
+        escalate=False,
+        routing_decision=None
+    )
 
-    billing_agent_response = MagicMock()
-    billing_agent_response.agent = "billing"
-    billing_agent_response.content = _BILLING_RESPONSE
-    billing_agent_response.citations = []
-    billing_agent_response.handover_required = False
-    billing_agent_response.escalate = False
-    billing_agent_response.routing_decision = None
+    billing_agent_response = AgentResponse(
+        agent="billing",
+        content=_BILLING_RESPONSE,
+        citations=[],
+        handover_required=False,
+        escalate=False,
+        routing_decision=None
+    )
 
     with (
         patch("agents.triage_agent.TriageAgent._call_llm",
@@ -77,9 +78,12 @@ def test_scenario2_cross_agent_handover():
 
     assert resp.status_code == 200
     data = resp.json()
-    # Final response comes from billing agent after handover
+    # Final response should contain aggregated content from both agents
     assert data["agent"] == "billing"
-    assert "upgrade" in data["content"].lower() or "enterprise" in data["content"].lower()
+    content = data["content"].lower()
+    assert "sso" in content
+    assert "address" in content or "transfer" in content
+    assert "upgrade" in content or "enterprise" in content
 
     # Verify handover audit log was written
     assert os.path.exists("handover/audit.jsonl"), "Handover audit log should exist"

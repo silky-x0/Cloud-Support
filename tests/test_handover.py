@@ -3,7 +3,7 @@ import os
 # pyrefly: ignore [missing-import]
 import pytest
 import tempfile
-from datetime import datetime
+from datetime import datetime, timezone
 
 from models.conversation import ConversationState
 from models.handover import HandoverPayload
@@ -21,7 +21,7 @@ def test_handover_execution():
             trace_id="trace-abc",
             current_agent="triage",
             customer_id="cust-456",
-            created_at=datetime.utcnow().isoformat()
+            created_at=datetime.now(timezone.utc).isoformat()
         )
 
         # 3. Instantiate and run HandoverManager
@@ -60,3 +60,4 @@ def test_handover_execution():
         # Cleanup
         if os.path.exists(temp_log_path):
             os.remove(temp_log_path)
+

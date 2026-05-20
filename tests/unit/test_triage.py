@@ -7,7 +7,7 @@ import json
 import pytest
 import asyncio
 from unittest.mock import AsyncMock, patch
-from datetime import datetime
+from datetime import datetime, timezone
 
 from agents.triage_agent import TriageAgent
 from models.conversation import ConversationState
@@ -17,7 +17,7 @@ def _make_state() -> ConversationState:
     return ConversationState(
         conversation_id="test-conv",
         trace_id="test-trace",
-        created_at=datetime.utcnow().isoformat(),
+        created_at=datetime.now(timezone.utc).isoformat(),
     )
 
 
@@ -96,3 +96,4 @@ async def test_triage_llm_failure_returns_error_response():
 
     assert response.agent == "triage"
     assert response.content  # some non-empty fallback message
+
