@@ -2,7 +2,7 @@ import uuid
 import logging
 import yaml
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from agents.base_agent import BaseAgent
@@ -74,7 +74,7 @@ def create_conversation(customer_id: str = "") -> ConversationState:
         conversation_id=str(uuid.uuid4()),
         trace_id=str(uuid.uuid4()),
         customer_id=customer_id,
-        created_at=datetime.utcnow().isoformat(),
+        created_at=datetime.now(timezone.utc).isoformat(),
     )
     _sessions[state.conversation_id] = state
     with trace_context(state.trace_id):
@@ -128,9 +128,17 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
         )
 
         # ── Step 2: Specialist agent ─────────────────────────────────────────────
+        # Persist user message before agents start processing
+        state.messages.append(Message(role="user", content=user_message, agent="user"))
+
         response: AgentResponse = await agents[state.current_agent].handle(
             user_message, state
         )
+
+        # Accumulate content and citations
+        accumulated_content = response.content
+        accumulated_citations = list(response.citations)
+        last_agent = state.current_agent
 
         logger.info(
             "AGENT_INVOCATION",
@@ -145,6 +153,16 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
         # ── Step 3: Handover loop ────────────────────────────────────────────────
         handover_count = 0
         while response.handover_required and handover_count < MAX_HANDOVERS:
+            # Persist current agent's response before handing over
+            state.messages.append(
+                Message(
+                    role="assistant",
+                    content=response.content,
+                    agent=state.current_agent,
+                    citations=response.citations,
+                )
+            )
+
             target = response.handover_target or "triage"
             _handover_manager.execute(
                 state,
@@ -154,6 +172,10 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
             )
             try:
                 response = await agents[state.current_agent].handle(user_message, state)
+                # Append new response parts
+                accumulated_content += "\n\n" + response.content
+                accumulated_citations.extend(response.citations)
+                last_agent = state.current_agent
             except Exception as exc:
                 logger.error(
                     "HANDOVER_FAILED",
@@ -168,6 +190,8 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
                         reason="handover_failure_fallback",
                     )
                     response = await agents["triage"].handle(user_message, state)
+                    accumulated_content += "\n\n" + response.content
+                    last_agent = "triage"
                 else:
                     response.escalate = True
                 break
@@ -181,22 +205,31 @@ async def chat(conversation_id: str, user_message: str) -> AgentResponse:
         if response.escalate:
             logger.info("ESCALATION", extra={"reason": "agent_flagged"})
             response = await agents["escalation"].handle(user_message, state)
+            accumulated_content += "\n\n" + response.content
+            last_agent = "escalation"
 
         # Apply Output Guardrail
         from guardrails.output_guard import redact_pii
-        response.content = redact_pii(response.content)
+        final_content = redact_pii(accumulated_content)
 
-        # ── Step 5: Persist turn to history ──────────────────────────────────────
-        state.messages.append(Message(role="user", content=user_message, agent="user"))
+        # ── Step 5: Persist final turn to history ────────────────────────────────
         state.messages.append(
             Message(
                 role="assistant",
                 content=response.content,
-                agent=state.current_agent,
+                agent=last_agent,
                 citations=response.citations,
             )
         )
         _sessions[conversation_id] = state
 
-        return response
+        # Return the aggregated response for the API
+        return AgentResponse(
+            agent=last_agent,
+            content=final_content,
+            citations=accumulated_citations,
+            handover_required=False,
+            escalate=False
+        )
+
 
